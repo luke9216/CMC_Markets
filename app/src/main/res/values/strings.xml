@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CMCMarkets Test</string>
+    <string name="buy">BUY</string>
+    <string name="sell">SELL</string>
+</resources>
