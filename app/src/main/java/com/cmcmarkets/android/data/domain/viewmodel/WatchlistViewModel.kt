@@ -144,7 +144,7 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
      */
     fun setProductPriceSize(size: Int) {
         var i = 0
-        while (i < size) {
+        while (i <= size) {
             _productPriceArrayList.add(_productPrice)
             productPriceArrayList.add(_productPrice as LiveData<PriceTO>)
             i++
