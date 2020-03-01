@@ -1,6 +1,8 @@
 package com.cmcmarkets.android.exercise.base
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -34,11 +36,17 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         initView()
     }
 
-    private fun setFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit()
+    /**
+     * For Splash Activity
+     */
+    private val handler: Handler by lazy {
+        Handler(Looper.getMainLooper())
+    }
+    fun postDelayed(action: Runnable, delay: Long) {
+        handler.postDelayed(action, delay)
     }
 
-
+    fun removeHandlerCallbacks(action: Runnable) {
+        handler.removeCallbacks(action)
+    }
 }

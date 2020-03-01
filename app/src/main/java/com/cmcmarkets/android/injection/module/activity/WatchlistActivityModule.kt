@@ -1,4 +1,4 @@
-package com.cmcmarkets.android.injection.module
+package com.cmcmarkets.android.injection.module.activity
 
 import com.cmcmarkets.android.exercise.composer.watchlist.WatchlistActivity
 import com.cmcmarkets.android.exercise.composer.watchlist.WatchlistListFragment

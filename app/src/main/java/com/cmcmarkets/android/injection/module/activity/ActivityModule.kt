@@ -1,4 +1,4 @@
-package com.cmcmarkets.android.injection.module
+package com.cmcmarkets.android.injection.module.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.Module

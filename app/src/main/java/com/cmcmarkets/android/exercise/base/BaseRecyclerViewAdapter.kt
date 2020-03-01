@@ -13,6 +13,13 @@ abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>
     abstract fun bindData(itemView: View, data: T, position: Int)
 
     abstract fun getItemClickListener(): ((T) -> Unit)?
+    inner class DefaultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener{
+                getItemClickListener()?.invoke(dataList[adapterPosition])
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val context = parent.context
@@ -21,14 +28,6 @@ abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>
 
     protected open fun getViewHolder(context: Context, viewType: Int): RecyclerView.ViewHolder {
         return DefaultViewHolder(getCardView(context, viewType))
-    }
-
-    inner class DefaultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        init {
-            itemView.setOnClickListener{
-                getItemClickListener()?.invoke(dataList[adapterPosition])
-            }
-        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

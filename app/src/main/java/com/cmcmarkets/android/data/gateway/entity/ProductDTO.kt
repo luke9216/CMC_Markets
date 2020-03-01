@@ -8,11 +8,14 @@ import com.google.gson.annotations.SerializedName
 data class ProductDTO (
 
         @SerializedName("productId")
-        var productId: Long,
+        var productId: Long?,
 
         @SerializedName("product")
         var productTO: ProductTO?,
 
         @SerializedName("productDetails")
-        var productDetailsTO: ProductDetailsTO?
+        var productDetailsTO: ProductDetailsTO?,
+
+        @SerializedName("price")
+        var priceTO: PriceTO?
 )

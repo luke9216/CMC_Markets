@@ -4,4 +4,6 @@
     <string name="sell">SELL</string>
     <string name="lblnameWatchlist">Watchlist</string>
     <string name="lblname_watchlists">Your Watchlists</string>
+
+    <string name="productPrice">$%.4f</string>
 </resources>
