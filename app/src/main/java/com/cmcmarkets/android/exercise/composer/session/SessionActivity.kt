@@ -29,7 +29,6 @@ class SessionActivity @Inject constructor() : BaseActivity() {
 
     override fun initEvent() {
         initObservers()
-
         btnCreatedSession.setOnClickListener {
             watchlistViewModel.onCreateSession()
         }

@@ -1,5 +1,8 @@
 package com.cmcmarkets.android.exercise.base
 
+import android.net.ConnectivityManager
+import android.net.Network
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -35,6 +38,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         initEvent()
         initView()
     }
+
 
     /**
      * For Splash Activity

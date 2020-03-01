@@ -20,14 +20,12 @@ class ProductCard(context: Context) : ConstraintLayout(context) {
     init {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         View.inflate(context, R.layout.card_product, this)
-
-        val txtName = findViewById<TextView>(R.id.name)
     }
 
     /**
      * Product View Card
      *
-     * @param productDTO
+     * @param productDTO - Product, ProductDetails and Price as ArrayList
      */
     fun setProduct(productDTO: ProductDTO) {
         findViewById<TextView>(R.id.name).text = productDTO.productTO?.name

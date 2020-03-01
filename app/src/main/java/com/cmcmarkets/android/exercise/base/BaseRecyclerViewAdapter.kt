@@ -8,10 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    /**
+     * Card layout
+     *
+     * @param context
+     * @param viewType
+     * @return
+     */
     abstract fun getCardView(context: Context, viewType: Int): View
 
+    /**
+     * Binding of each card that would be in the recyclerview
+     *
+     * @param itemView
+     * @param data
+     * @param position
+     */
     abstract fun bindData(itemView: View, data: T, position: Int)
 
+    /**
+     *
+     * @return Click event - Card
+     */
     abstract fun getItemClickListener(): ((T) -> Unit)?
     inner class DefaultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
@@ -30,6 +48,12 @@ abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>
         return DefaultViewHolder(getCardView(context, viewType))
     }
 
+    /**
+     * Binding of each card
+     *
+     * @param holder
+     * @param position
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (position >= 0) {
             val itemView = holder.itemView

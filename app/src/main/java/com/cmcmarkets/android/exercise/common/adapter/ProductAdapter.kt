@@ -35,6 +35,12 @@ class ProductAdapter @Inject constructor(productList: ArrayList<ProductDTO>) :
         }
     }
 
+    /**
+     * Update the price of the product. Code needs to be efficient as it is called frequently.
+     *
+     * @param data - Product, ProductDetails and Price as ArrayList
+     * @param position - Position to change in recyclerview
+     */
     fun updatePrice(data: ProductDTO, position: Int) {
         if(mItemView != null) {
             bindData(mItemView!!, data, position)

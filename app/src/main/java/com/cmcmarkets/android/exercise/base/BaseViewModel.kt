@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
 abstract class BaseViewModel : ViewModel() {
+    //To be used for coroutine dispatchers
     val compositeDisposable = CompositeDisposable()
 
     override fun onCleared() {

@@ -14,6 +14,11 @@ class SessionRepositoryImpl @Inject constructor(): SessionRepository {
 
     var iSessionApi: ISessionApi = MockSessionApi()
 
+    /**
+     * Store session
+     *
+     * @return
+     */
     @Synchronized
     override fun getInstance(): SessionRepository? {
         if (sessionRepository == null) {

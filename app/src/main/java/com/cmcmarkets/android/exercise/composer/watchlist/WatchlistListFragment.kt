@@ -82,20 +82,29 @@ open class WatchlistListFragment @Inject constructor() : BaseFragment() {
         }
     }
 
+    /**
+     * Handle the watchlist
+     *
+     * @param watchlist - User selected watchlist
+     */
     private fun handleWatchlistSelect(watchlist: WatchlistTO) {
         activity?.findViewById<Button>(R.id.btnSelectWatchlist)?.text = watchlist.details.name
         val productIds = watchlist.details.productIds
-        watchlistViewModel.clearProducts()
-        watchlistViewModel.setProductPriceSize(productIds.size)
+        watchlistViewModel.clearProducts()                                      //Empty the previous products
+        watchlistViewModel.setProductPriceSize(productIds.size)                 //Set new size of watchlist for the product prices array
         watchlistProductIds = productIds
         productIds.forEachIndexed { index, productId ->
-            watchlistViewModel.onGetProduct(currentSession!!.token, productId)
+            watchlistViewModel.onGetProduct(currentSession!!.token, productId)                          //Rx call
             watchlistViewModel.onGetProductDetails(currentSession!!.token, productId)
             watchlistViewModel.onGetProductPrice(currentSession!!.token, productId, productIds.size)
         }
         initPriceObserver()
     }
 
+    /**
+     * Init observers needed for the watchlists and products
+     *
+     */
     private fun initObservers() {
         watchlistViewModel.watchlist.observe(this, Observer {
             if (it != null) {
@@ -135,6 +144,12 @@ open class WatchlistListFragment @Inject constructor() : BaseFragment() {
         })
     }
 
+    /**
+     * Init the price observer. This has to be called after handleWatchlistSelect as the watchlist size needs to be set.
+     *
+     * An observable is created for each product. So price is flowable.
+     *
+     */
     private fun initPriceObserver() {
         watchlistViewModel.productPriceArrayList.forEachIndexed { int, productPrice ->
             productPrice.observe(this, Observer {
@@ -147,6 +162,12 @@ open class WatchlistListFragment @Inject constructor() : BaseFragment() {
         }
     }
 
+    /**
+     * Method is aimed to run all the way through when all of the basic details of the products are received.
+     * ProductDTO (ProductTO, ProductDetailsTO and PriceTO) array list created with all product details and passed to recyclerview.
+     * nulls are expected for ProductsDetails and ProductsPrice. Aiming to get response time quick for user
+     *
+     */
     private fun updateWatchlistRecyclerView() {
         val watchlistProductIds = watchlistProductIds ?: return
         val watchlistProducts = watchlistProducts ?: return
