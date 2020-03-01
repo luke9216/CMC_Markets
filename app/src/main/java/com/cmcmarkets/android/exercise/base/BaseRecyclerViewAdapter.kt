@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    abstract fun getItemView(context: Context, viewType: Int): View
+    abstract fun getCardView(context: Context, viewType: Int): View
 
     abstract fun bindData(itemView: View, data: T, position: Int)
 
@@ -20,7 +20,7 @@ abstract class BaseRecyclerViewAdapter<T>(protected val dataList: MutableList<T>
     }
 
     protected open fun getViewHolder(context: Context, viewType: Int): RecyclerView.ViewHolder {
-        return DefaultViewHolder(getItemView(context, viewType))
+        return DefaultViewHolder(getCardView(context, viewType))
     }
 
     inner class DefaultViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
