@@ -43,7 +43,8 @@ class SessionActivity @Inject constructor() : BaseActivity() {
         watchlistViewModel.session.observe(this, Observer {
             if (it != null) {
                 if (!it.success) {
-                    Toast.makeText(this, "Error creating session. Try again.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error creating session. Trying again...", Toast.LENGTH_LONG).show()
+                    watchlistViewModel.onCreateSession()
                 } else {
                     Toast.makeText(this, "Session successfully created!", Toast.LENGTH_LONG).show()
                     startActivity(WatchlistActivity.getLaunchIntent(this))
