@@ -1,18 +1,22 @@
 package com.cmcmarkets.android.data.domain.viewmodel
 
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.cmcmarkets.android.data.domain.repository.ProductRepository
 import com.cmcmarkets.android.data.domain.repository.SessionRepository
 import com.cmcmarkets.android.data.domain.repository.WatchlistRepository
 import com.cmcmarkets.android.exercise.base.BaseViewModel
+import com.cmcmarkets.api.ApiError
 import com.cmcmarkets.api.products.PriceTO
 import com.cmcmarkets.api.products.ProductDetailsTO
 import com.cmcmarkets.api.products.ProductTO
 import com.cmcmarkets.api.products.WatchlistTO
 import com.cmcmarkets.api.session.SessionTO
+import io.reactivex.Single
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -46,10 +50,7 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
                         sessionRepository.updateSession(it)
                     },
                     onError = {
-                        //TODO Log Error
-                        val error = it.message
-                        val reason = it.stackTrace
-                        _session.postValue(null)
+                        _error.postValue(it as ApiError?)
                     }
             )
 
@@ -103,10 +104,7 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
                         _product.postValue(productList)
                     },
                     onError = {
-                        //TODO Log Error
-                        val error = it.message
-                        val reason = it.stackTrace
-                        _product.postValue(null)
+                        _error.postValue(it as ApiError?)
                     }
             )
 
@@ -130,10 +128,7 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
                         _productDetails.postValue(productDetailsList)
                     },
                     onError = {
-                        //TODO Log Error
-                        val error = it.message
-                        val reason = it.stackTrace
-                        _productDetails.postValue(null)
+                        _error.postValue(it as ApiError?)
                     }
             )
 
@@ -169,15 +164,15 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
                         _productPriceArrayList[index].postValue(it)
                     },
                     onError = {
-                        //TODO Log Error
-                        val error = it.message
-                        val reason = it.stackTrace
-//                            _productPriceArrayList[index].postValue(null)
+                        _error.postValue(it as ApiError?)
                     }
             )
 
     private val _watchlist = MutableLiveData<List<WatchlistTO>>()
     val watchlist: LiveData<List<WatchlistTO>> = _watchlist
+
+    private val _error = MutableLiveData<ApiError>()
+    val error: LiveData<ApiError> = _error
 
     private val _watchlistLoadingStatus = MutableLiveData<LoadingStatus>()
     val watchlistLoadingStatus: LiveData<LoadingStatus> = _watchlistLoadingStatus
@@ -195,10 +190,7 @@ class WatchlistViewModel @Inject constructor() : BaseViewModel() {
             .subscribeBy(
                     onSuccess = { _watchlist.postValue(it) },
                     onError = {
-                        //TODO Log Error
-                        val error = it.message
-                        val reason = it.stackTrace
-                        _watchlist.postValue(null)
+                        _error.postValue(it as ApiError?)
                     }
             )
 }
