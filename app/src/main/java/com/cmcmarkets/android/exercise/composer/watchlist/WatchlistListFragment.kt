@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.widget.ContentLoadingProgressBar
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,8 @@ import com.cmcmarkets.android.data.gateway.entity.ProductDTO
 import com.cmcmarkets.android.exercise.R
 import com.cmcmarkets.android.exercise.base.BaseFragment
 import com.cmcmarkets.android.exercise.common.adapter.ProductAdapter
+import com.cmcmarkets.android.exercise.composer.session.SessionActivity
+import com.cmcmarkets.api.ApiError
 import com.cmcmarkets.api.products.PriceTO
 import com.cmcmarkets.api.products.ProductDetailsTO
 import com.cmcmarkets.api.products.ProductTO
@@ -53,6 +56,7 @@ open class WatchlistListFragment @Inject constructor() : BaseFragment() {
             //TODO Error
         }
     }
+
 
     override fun initView() {
     }
@@ -135,13 +139,40 @@ open class WatchlistListFragment @Inject constructor() : BaseFragment() {
         })
         watchlistViewModel.watchlistLoadingStatus.observe(this, Observer {
             if (it != null) {
-                if(it == WatchlistViewModel.LoadingStatus.LOADING){
+                if (it == WatchlistViewModel.LoadingStatus.LOADING) {
                     loadingbar.show()
                 } else {
                     loadingbar.hide()
                 }
             }
         })
+
+        watchlistViewModel.error.observe(this, Observer {
+            if (it != null) {
+                handleApiError(it)
+            }
+        })
+    }
+
+    private fun handleApiError(ex: Exception) {
+        when(ex) {
+            ApiError.SessionExpired -> {
+                Toast.makeText(context!!, "Session Expired. Please log in again.", Toast.LENGTH_LONG).show()
+                startActivity(SessionActivity.getLaunchIntent(context!!))
+            }
+            ApiError.SessionUnrecognized -> {
+                Toast.makeText(context!!, "Session Unrecognized. Please log in again.", Toast.LENGTH_LONG).show()
+                startActivity(SessionActivity.getLaunchIntent(context!!))
+            }
+            ApiError.Disconnected -> {
+                Toast.makeText(context!!, "Session Expired. Please log in again.", Toast.LENGTH_LONG).show()
+                startActivity(SessionActivity.getLaunchIntent(context!!))
+            }
+            else -> {
+                Toast.makeText(context!!, "Error occurred. Please log in again.", Toast.LENGTH_LONG).show()
+                startActivity(SessionActivity.getLaunchIntent(context!!))
+            }
+        }
     }
 
     /**

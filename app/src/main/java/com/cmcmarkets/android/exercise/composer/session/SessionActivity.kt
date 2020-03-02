@@ -8,6 +8,7 @@ import com.cmcmarkets.android.data.domain.viewmodel.WatchlistViewModel
 import com.cmcmarkets.android.exercise.R
 import com.cmcmarkets.android.exercise.base.BaseActivity
 import com.cmcmarkets.android.exercise.composer.watchlist.WatchlistActivity
+import com.cmcmarkets.api.ApiError
 import kotlinx.android.synthetic.main.activity_session.*
 import javax.inject.Inject
 
@@ -30,7 +31,11 @@ class SessionActivity @Inject constructor() : BaseActivity() {
     override fun initEvent() {
         initObservers()
         btnCreatedSession.setOnClickListener {
-            watchlistViewModel.onCreateSession()
+            try {
+                watchlistViewModel.onCreateSession()
+            } catch (ex : Exception) {
+                handleApiError(ex)
+            }
         }
     }
 
@@ -48,5 +53,22 @@ class SessionActivity @Inject constructor() : BaseActivity() {
     }
 
     override fun initView() {
+    }
+
+    private fun handleApiError(ex: Exception) {
+        when(ex) {
+            ApiError.SessionExpired -> {
+                Toast.makeText(this, "Session Expired. Please log in again.", Toast.LENGTH_LONG).show()
+            }
+            ApiError.SessionUnrecognized -> {
+                Toast.makeText(this, "Session Unrecognized. Please log in again.", Toast.LENGTH_LONG).show()
+            }
+            ApiError.Disconnected -> {
+                Toast.makeText(this, "Session Expired. Please log in again.", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                Toast.makeText(this, "Error occurred. Please log in again.", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
